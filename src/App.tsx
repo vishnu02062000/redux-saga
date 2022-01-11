@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{ useEffect } from 'react';
+import './index.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getVariableSelector } from './redux/selectors';
+import { fetchVariableRequest } from './redux/actions';
 
 function App() {
+
+  const dispatch = useDispatch();
+  const variables = useSelector(getVariableSelector);
+  // const errors = useSelector(getErrorSelector);
+
+  useEffect(() => {
+    dispatch(fetchVariableRequest());
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        variables.map((variable, index) => (
+          <div key={variable}>
+            {++index} {variable};
+          </div>
+        ))
+      }
     </div>
   );
 }
